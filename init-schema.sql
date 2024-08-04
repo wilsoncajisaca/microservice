@@ -1,0 +1,3 @@
+CREATE SCHEMA IF NOT EXISTS client_person;
+
+CREATE SCHEMA IF NOT EXISTS account_movements;
