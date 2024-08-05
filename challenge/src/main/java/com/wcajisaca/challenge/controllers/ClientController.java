@@ -43,16 +43,18 @@ public class ClientController {
     public void createClient(@Valid @RequestBody ClientDTO client,
                                           Errors errors) throws RequestValidationException {
         Commons.validateFieldRequest(errors);
+        client.setIsNewClient(true);
         this.clientService.save(client);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable UUID id, @RequestBody ClientDTO client,
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable UUID id, @RequestBody ClientDTO clientDto,
                                                   Errors errors) throws RequestValidationException {
         Commons.validateFieldRequest(errors);
-        ClientDTO clientDto = clientService.findById(id);
-        client.setClientId(clientDto.getClientId());
-        return ResponseEntity.ok(clientService.save(client));
+        ClientDTO clientDtoUpd = clientService.findById(id);
+        clientDto.setPersonId(clientDtoUpd.getPersonId());
+        clientDto.setIsNewClient(false);
+        return ResponseEntity.ok(clientService.save(clientDto));
     }
 
     @DeleteMapping("/{id}")

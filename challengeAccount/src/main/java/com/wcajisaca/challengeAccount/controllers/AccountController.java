@@ -29,13 +29,13 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAccount(@PathVariable UUID accountId) throws GeneralException {
+    public ResponseEntity<?> getAccount(@PathVariable("id") UUID accountId) throws GeneralException {
         return ResponseEntity.ok()
                 .body(accountService.getAccountById(accountId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateClient(@Valid @PathVariable UUID id, @RequestBody AccountDTO accountDto,
+    public ResponseEntity<?> updateClient(@Valid @PathVariable("id") UUID id, @RequestBody AccountDTO accountDto,
                                           Errors errors) throws GeneralException, RequestValidationException {
         Commons.validateFieldRequest(errors);
         AccountDTO account = accountService.getAccountById(id);
@@ -45,7 +45,7 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteAccount(@PathVariable UUID accountId) throws GeneralException {
+    public void deleteAccount(@PathVariable("id") UUID accountId) throws GeneralException {
         accountService.deleteAccount(accountId);
     }
 }

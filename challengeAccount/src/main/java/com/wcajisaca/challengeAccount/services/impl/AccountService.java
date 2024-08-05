@@ -27,12 +27,14 @@ public class AccountService implements IAccountService {
                 .collect(Collectors.toList());
     }
 
+    @Override
     public AccountDTO getAccountById(UUID accountId) throws GeneralException {
         return repository.findById(accountId)
                 .map(Mapper::toAccountDTO)
                 .orElseThrow(Errors::notFoundAccount);
     }
 
+    @Override
     public AccountDTO createAccount(AccountDTO accountDTO) {
         Account account = Mapper.toAccount(accountDTO);
         account.setAccountNumber(ThreadLocalRandom.current().nextInt(100000, 999999 + 1));
@@ -42,8 +44,10 @@ public class AccountService implements IAccountService {
         return Mapper.toAccountDTO(account);
     }
 
+    @Override
     public void deleteAccount(UUID accountId) throws GeneralException {
-        this.repository.findById(accountId).orElseThrow(Errors::notFoundAccount);
-        repository.deleteById(accountId);
+        Account account = this.repository.findById(accountId).orElseThrow(Errors::notFoundAccount);
+        account.setStatus(Boolean.FALSE);
+        repository.save(account);
     }
 }

@@ -1,21 +1,21 @@
-version: '3.9'
-
 services:
   db-postgres:
     container_name: db-nttdata
-    image: postgres:latest
+    image: postgres:12
     restart: unless-stopped
     environment:
       POSTGRES_DB: nttdata_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - 5434:5434
+      - 5432:5432
     expose:
-      - 5434
-    command: -p 5434
+      - 5432
+    command: -p 5432
     volumes:
       - ./init-schema.sql:/docker-entrypoint-initdb.d/init-schema.sql
+    networks:
+      - springcloud
 
   zookeeper:
     container_name: zookeeper
@@ -25,6 +25,8 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
     ports:
       - 2181:2181
+    networks:
+      - springcloud
 
   kafka:
     image: confluentinc/cp-kafka:latest
@@ -42,3 +44,8 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    networks:
+      - springcloud
+
+networks:
+  springcloud:

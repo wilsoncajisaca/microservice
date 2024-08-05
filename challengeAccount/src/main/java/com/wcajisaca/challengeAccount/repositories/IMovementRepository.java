@@ -18,4 +18,5 @@ import java.util.UUID;
 public interface IMovementRepository extends JpaRepository<Movements, Serializable> {
     Optional<Movements> findTopByAccountIdOrderByMovementDateDesc(UUID accountId);
     List<Movements> findByAccountIdAndMovementDateBetween(UUID accountId, LocalDate startDate, LocalDate endDate);
+    List<Movements> findByAccountId(UUID accountId);
 }

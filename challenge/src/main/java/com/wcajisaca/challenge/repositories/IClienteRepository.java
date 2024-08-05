@@ -6,9 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface IClienteRepository extends JpaRepository<Client, Serializable> {
     Boolean existsByIdentificationOrClientId(String ident, String clientId);
+
+    List<Client> findAllByStatus(Boolean status);
 }

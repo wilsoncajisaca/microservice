@@ -35,6 +35,13 @@ public class MovementsService implements IMovementsService {
     }
 
     @Override
+    public List<MovementsDTO> getMovementByAccountId(UUID accountId) throws GeneralException {
+        return movRepository.findByAccountId(accountId).stream()
+                .map(Mapper::toMovementsDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public MovementsDTO getMovementById(UUID movementId) throws GeneralException {
         return movRepository.findById(movementId)
                 .map(Mapper::toMovementsDTO)

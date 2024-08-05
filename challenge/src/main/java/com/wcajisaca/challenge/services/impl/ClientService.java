@@ -34,7 +34,7 @@ public class ClientService implements IClientService {
 
     @Override
     public List<ClientDTO> findAll() {
-        return repository.findAll().stream()
+        return repository.findAllByStatus(Boolean.TRUE).stream()
                 .map(Mapper::convertToDTO)
                 .collect(Collectors.toList());
     }
@@ -51,15 +51,18 @@ public class ClientService implements IClientService {
         Client client = Mapper
                 .convertToClient(clientDto.withPassword(encryptPassword(clientDto.getPassword())));
         Client savedClient = repository.save(client);
-        sendKafkaCreateAccount(savedClient);
+        if(clientDto.getIsNewClient()){
+            sendKafkaCreateAccount(savedClient);
+        }
         return Mapper.convertToDTO(savedClient);
     }
 
     @Override
     public void deleteById(UUID id) {
-        this.repository.findById(id)
+         Client client = this.repository.findById(id)
                 .orElseThrow(Errors::notFoundClient);
-        repository.deleteById(id);
+        client.setStatus(false);
+        repository.save(client);
     }
 
     private void verifyExistClient(ClientDTO clientDto) {
@@ -70,6 +73,10 @@ public class ClientService implements IClientService {
                 });
     }
 
+    /**
+     * Send message to kafka
+     * @param savedClient
+     */
     private void sendKafkaCreateAccount(Client savedClient){
         try{
             kafkaTemplate.send(CREATE_ACCOUNT_TOPIC_NAME, savedClient.getPersonId());

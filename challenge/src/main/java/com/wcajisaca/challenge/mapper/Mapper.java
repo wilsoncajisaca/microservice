@@ -12,6 +12,7 @@ public class Mapper {
 
     public static Client convertToClient(ClientDTO clientDTO) {
         Client client = new Client();
+        client.setPersonId(clientDTO.getPersonId());
         client.setClientId(clientDTO.getClientId());
         client.setName(clientDTO.getName());
         client.setGender(clientDTO.getGender());

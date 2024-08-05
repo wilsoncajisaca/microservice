@@ -6,7 +6,6 @@ import com.wcajisaca.challengeAccount.exception.GeneralException;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -16,6 +15,7 @@ import java.util.UUID;
 public interface IMovementsService {
     List<MovementsDTO> findAll();
     MovementsDTO createMovement(MovementsDTO movementsDTO) throws GeneralException;
+    List<MovementsDTO> getMovementByAccountId(UUID accountId) throws GeneralException;
     MovementsDTO getMovementById(UUID movementId) throws GeneralException;
     void deleteMovement(UUID movementId);
     AccountStatementReportDTO generateAccountStatement(UUID clientId, LocalDate startDate, LocalDate endDate);

@@ -54,7 +54,7 @@ public class ClientRepositoryIntegrationTest {
         mockMvc.perform(post("/clientes")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(clientDTO)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         List<Client> clients = clientRepository.findAll();
         assertEquals(1, clients.size());

@@ -28,14 +28,14 @@ public class MovementsController {
         service.createMovement(movementsDTO);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getMovement(@PathVariable UUID movementId) throws GeneralException {
+    @GetMapping("/{accountId}")
+    public ResponseEntity<?> getMovement(@PathVariable("accountId") UUID accountId) throws GeneralException {
         return ResponseEntity.ok()
-                .body(service.getMovementById(movementId));
+                .body(service.getMovementByAccountId(accountId));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @Valid @RequestBody MovementsDTO movementDTO,
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @Valid @RequestBody MovementsDTO movementDTO,
                                     Errors errors) throws GeneralException, RequestValidationException {
         Commons.validateFieldRequest(errors);
         MovementsDTO movement = service.getMovementById(id);
@@ -45,7 +45,7 @@ public class MovementsController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteMovement(@PathVariable UUID movementId) {
+    public void deleteMovement(@PathVariable("id") UUID movementId) {
         service.deleteMovement(movementId);
     }
 }

@@ -38,7 +38,7 @@ public class ClientDTO {
     @With
     private String password;
     private Boolean status;
-
+    private Boolean isNewClient;
     @Tolerate
     public ClientDTO() {
         super();
