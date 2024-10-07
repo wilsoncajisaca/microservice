@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: client-person
+          uri: lb://client-person
+          predicates:
+            - Path=/client-person/**
+        - id: account-movements
+          uri: lb://account-movements
+          predicates:
+            - Path=/account-movements/**
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://${EUREKA_HOST:localhost}:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health
+      base-path: /actuator
+
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway: trace
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: info

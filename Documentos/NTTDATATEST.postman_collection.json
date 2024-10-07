@@ -1,0 +1,380 @@
+{
+	"info": {
+		"_postman_id": "1eafb5a6-7977-4872-8836-f9e4b8a31cf9",
+		"name": "NTTDATATEST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1504238"
+	},
+	"item": [
+		{
+			"name": "ClientService",
+			"item": [
+				{
+					"name": "Obtener todos los clientes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/client-person/clientes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"client-person",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos los clientes Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/client-person/clientes/41ee219a-8652-4c69-8160-e1bd44dbca67",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"client-person",
+								"clientes",
+								"41ee219a-8652-4c69-8160-e1bd44dbca67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar cliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": \"wilsoncaji\",\r\n    \"password\": \"password123\",\r\n    \"status\": true,\r\n    \"name\": \"Wilson\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"0104281639\",\r\n    \"address\": \"Cuenca\",\r\n    \"phone\": \"0963805114\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/client-person/clientes/41ee219a-8652-4c69-8160-e1bd44dbca67",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"client-person",
+								"clientes",
+								"41ee219a-8652-4c69-8160-e1bd44dbca67"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear un nuevo cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clientId\": \"wcajisacaaa\",\r\n    \"password\": \"password123\",\r\n    \"status\": true,\r\n    \"name\": \"Wilson Cajisaca\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"2222222222\",\r\n    \"address\": \"Cuenca\",\r\n    \"phone\": \"0963805114\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/client-person/clientes",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"client-person",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Obtener todos un cliente por Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/client-person/clientes/15790796-07b8-4169-ae55-126d62171cb8",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"client-person",
+								"clientes",
+								"15790796-07b8-4169-ae55-126d62171cb8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AccountService",
+			"item": [
+				{
+					"name": "Movimientos",
+					"item": [
+						{
+							"name": "Crear movimiento",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movementDate\": \"2024-08-04\",\r\n    \"typeMovement\": \"DEP\",\r\n    \"value\": 10,\r\n    \"accountId\": \"1985e6fb-ef62-4b09-a863-6293daa25c8d\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/account-movements/movimientos",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"account-movements",
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Listar movimientos",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"movementDate\": \"2024-08-04\",\r\n    \"typeMovement\": \"DEP\",\r\n    \"value\": 10,\r\n    \"accountId\": \"1985e6fb-ef62-4b09-a863-6293daa25c8d\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://127.0.0.1:8080/account-movements/movimientos",
+									"protocol": "http",
+									"host": [
+										"127",
+										"0",
+										"0",
+										"1"
+									],
+									"port": "8080",
+									"path": [
+										"account-movements",
+										"movimientos"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Obtener una cuenta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/account-movements/cuentas/5fae0fa3-b227-4564-a540-646ea0569ed2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"account-movements",
+								"cuentas",
+								"5fae0fa3-b227-4564-a540-646ea0569ed2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar cuenta",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeAccount\": \"AHO\",\r\n    \"personId\": \"15790796-07b8-4169-ae55-126d62171cb8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/account-movements/cuentas/5fe5af21-739b-44d6-b794-24ba7e8e5936",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"account-movements",
+								"cuentas",
+								"5fe5af21-739b-44d6-b794-24ba7e8e5936"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Crear una cuenta",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"typeAccount\": \"CORR\",\r\n    \"personId\": \"15790796-07b8-4169-ae55-126d62171cb8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8080/account-movements/cuentas",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"account-movements",
+								"cuentas"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar una cuenta",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/account-movements/cuentas/5fe5af21-739b-44d6-b794-24ba7e8e5936",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"account-movements",
+								"cuentas",
+								"5fe5af21-739b-44d6-b794-24ba7e8e5936"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reporte",
+			"item": [
+				{
+					"name": "Reporte por fecha y usuario",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/account-movements/reportes?clientId=15790796-07b8-4169-ae55-126d62171cb8&startDate=2024-08-04&endDate=2024-08-09",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"account-movements",
+								"reportes"
+							],
+							"query": [
+								{
+									"key": "clientId",
+									"value": "15790796-07b8-4169-ae55-126d62171cb8"
+								},
+								{
+									"key": "startDate",
+									"value": "2024-08-04"
+								},
+								{
+									"key": "endDate",
+									"value": "2024-08-09"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
