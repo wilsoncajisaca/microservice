@@ -38,9 +38,8 @@ public class MovementsController {
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @Valid @RequestBody MovementsDTO movementDTO,
                                     Errors errors) throws GeneralException, RequestValidationException {
         Commons.validateFieldRequest(errors);
-        MovementsDTO movement = service.getMovementById(id);
-        movementDTO.setMovementId(movement.getMovementId());
-        return ResponseEntity.ok(service.createMovement(movementDTO));
+        MovementsDTO movementUpdate = movementDTO.withMovementId(service.getMovementById(id).movementId());
+        return ResponseEntity.ok(service.createMovement(movementUpdate));
     }
 
     @DeleteMapping("/{id}")

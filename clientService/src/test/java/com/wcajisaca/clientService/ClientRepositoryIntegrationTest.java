@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
+import static com.wcajisaca.clientService.dto.request.ClientDTO.clientDTOForTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -35,17 +36,7 @@ public class ClientRepositoryIntegrationTest {
     @BeforeEach
     void setUp() {
         clientRepository.deleteAll();
-        clientDTO = ClientDTO.builder()
-                .clientId("wcajisaca")
-                .name("Wilson Cajisaca")
-                .password("password")
-                .identification("0106146137")
-                .gender("Masculino")
-                .phone("0963521463")
-                .address("Cuenca")
-                .age(30)
-                .status(Boolean.TRUE)
-                .build();
+        clientDTO = clientDTOForTest("wcajisaca");
     }
 
     @Test

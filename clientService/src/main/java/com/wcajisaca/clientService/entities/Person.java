@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 @Entity
-@Table(name = "persona", schema = "client_person")
+@Table(name = "persona")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
 @Setter
@@ -22,15 +22,15 @@ public class Person extends StatusDefault implements Serializable {
     @Column(name = "persona_id",updatable = false, nullable = false)
     private UUID personId;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String name;
     @Column(name = "genero")
     private String gender;
     @Column(name = "edad")
     private Integer age;
-    @Column(name = "identificacion")
+    @Column(name = "identificacion", nullable = false)
     private String identification;
-    @Column(name = "direccion")
+    @Column(name = "direccion", nullable = false)
     private String address;
     @Column(name = "telefono")
     private String phone;

@@ -6,18 +6,17 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@Builder
-@AllArgsConstructor
-public class AccountDTO {
-    @With
-    private UUID accountId;
-    private Integer accountNumber;
-    @NotNull(message = "El tipo de la cuenta es requerido")
-    private TypeAccount typeAccount;
-    private Double initialBalance;
-    private Boolean status;
-    @NotNull(message = "La persona asociada es requerida")
-    private UUID personId;
+public record AccountDTO (
+        UUID accountId,
+        Integer accountNumber,
+        @NotNull(message = "El tipo de la cuenta es requerido")
+        TypeAccount typeAccount,
+        Double initialBalance,
+        Boolean status,
+        @NotNull(message = "La persona asociada es requerida")
+        UUID personId
+) {
+    public static AccountDTO accountWithPerson(TypeAccount typeAccount, UUID personId) {
+        return new AccountDTO(null, null, typeAccount, null, Boolean.TRUE, personId);
+    }
 }

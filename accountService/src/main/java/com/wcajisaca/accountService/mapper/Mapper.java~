@@ -1,0 +1,35 @@
+package com.wcajisaca.accountService.mapper;
+
+import com.wcajisaca.accountService.dtos.AccountDTO;
+import com.wcajisaca.accountService.dtos.MovementsDTO;
+import com.wcajisaca.accountService.entities.Account;
+import com.wcajisaca.accountService.entities.Movements;
+import com.wcajisaca.accountService.util.MapperUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+/**
+ * Mapper class
+ * @author wilson
+ */
+@Component
+@RequiredArgsConstructor
+public class Mapper {
+    private final MapperUtil mapperUtil;
+
+    public MovementsDTO toMovementsDTO(Movements movements) {
+        return this.mapperUtil.map(account, AccountDTO.class);
+    }
+
+    public Movements toMovements(MovementsDTO movementsDTO) {
+        return this.mapperUtil.map(account, AccountDTO.class);
+    }
+
+    public AccountDTO toAccountDTO(Account account) {
+         return this.mapperUtil.map(account, AccountDTO.class);
+    }
+
+    public Account toAccount(AccountDTO accountDTO) {
+        return this.mapperUtil.map(accountDTO, Account.class);
+    }
+}

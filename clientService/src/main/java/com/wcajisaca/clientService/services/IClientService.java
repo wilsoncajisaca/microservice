@@ -14,5 +14,7 @@ public interface IClientService {
     List<ClientDTO> findAll();
     ClientDTO findById(UUID id);
     ClientDTO save(ClientDTO client);
-    void deleteById(UUID id);
+    void deleteLogicById(UUID id);
+
+    void deleteBydId(UUID id);
 }

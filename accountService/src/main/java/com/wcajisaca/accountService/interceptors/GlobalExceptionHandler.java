@@ -1,8 +1,9 @@
-package com.wcajisaca.accountService.handler;
+package com.wcajisaca.accountService.interceptors;
 
 import com.wcajisaca.accountService.dtos.error.ApiError;
 import com.wcajisaca.accountService.dtos.error.ApiErrorList;
 import com.wcajisaca.accountService.exception.GeneralException;
+import com.wcajisaca.accountService.exception.GeneralRunException;
 import com.wcajisaca.accountService.exception.RequestValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         log.debug("Exception for return handleGeneralException: {}", requestValidationException);
         ApiError error = requestValidationException.getApiError();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    /**
+     * @param requestValidationException Throw Error
+     * @param webRequest   Request
+     * @return Final custom exception
+     */
+    @ExceptionHandler(GeneralRunException.class)
+    public ResponseEntity<Object> handleGeneralException(GeneralRunException requestValidationException, WebRequest webRequest){
+        log.debug("Exception for return handleGeneralException: {}", requestValidationException);
+        ApiError error = requestValidationException.getApiError();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
     /**

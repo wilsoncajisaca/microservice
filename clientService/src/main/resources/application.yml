@@ -6,6 +6,8 @@ server:
 logging:
   level:
     org.hibernate.SQL: DEBUG
+    root: INFO
+    org.springframework.jdbc.core: DEBUG
 
 spring:
   config:
@@ -18,10 +20,9 @@ spring:
     name: client-person
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://${DB_HOST:localhost}:5432/nttdata_db
-    username: postgres
-    password: postgres
-    schema: client_person
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5433}/${DB_NAME:transactional_db}
+    username: ${DB_USER:postgres}
+    password: ${DB_PASSWORD:postgres}
     hikari:
       pool-name: Hikari
       connection-timeout: 20000 # Maximum number of milliseconds that a client will wait for a connection
@@ -53,7 +54,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: ${eureka_url:http://localhost:8761/eureka}
+      defaultZone: http://${EUREKA_HOST:eureka-server}:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 

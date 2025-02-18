@@ -3,6 +3,7 @@ package com.wcajisaca.accountService.services;
 import com.wcajisaca.accountService.dtos.AccountStatementReportDTO;
 import com.wcajisaca.accountService.dtos.MovementsDTO;
 import com.wcajisaca.accountService.exception.GeneralException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;

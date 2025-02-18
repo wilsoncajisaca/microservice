@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: api-gateway
@@ -8,30 +11,44 @@ spring:
           uri: lb://client-person
           predicates:
             - Path=/client-person/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: clientPersonCircuitBreaker
+                fallbackUri: forward:/fallback
         - id: account-movements
           uri: lb://account-movements
           predicates:
             - Path=/account-movements/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: accountMovementsCircuitBreaker
+                fallbackUri: forward:/fallback
 
-server:
-  port: 8080
-
-eureka:
-  client:
-    service-url:
-      default-zone: http://${EUREKA_HOST:localhost}:8761/eureka
-  instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+management.health.circuitbreakers.enabled: true
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      timeoutDuration: 10s
 
 management:
   endpoints:
     web:
       exposure:
-        include: info,health
+        include: info,health,circuitbreakers
       base-path: /actuator
+
+eureka:
+  client:
+    service-url:
+      default-zone: http://eureka-server:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 logging:
   level:
     root: info
-    org.springframework.cloud.gateway: trace
+    org.springframework.cloud.gateway: DEBUG
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: info

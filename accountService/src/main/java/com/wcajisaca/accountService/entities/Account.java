@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "cuenta", schema = "account_movements")
+@Table(name = "cuenta")
 public class Account extends StatusDefault implements Serializable {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -28,23 +28,16 @@ public class Account extends StatusDefault implements Serializable {
     @With
     private Integer accountNumber;
     @Enumerated(EnumType.STRING)
-    @Column(name = "tipo_cuenta")
+    @Column(name = "tipo_cuenta", nullable = false)
     @With
     private TypeAccount typeAccount;
     @Column(name = "saldo_inicial")
     @With
     private Double initialBalance;
 
-    @Column(name = "persona_id")
+    @Column(name = "persona_id", nullable = false)
     @With
     private UUID personId;
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "persona_id",
-            nullable = false,
-            referencedColumnName = "persona_id",
-            insertable = false, updatable = false,
-            foreignKey = @ForeignKey(name = "fk_cuenta_persona"))
-    private Person person;
 
     @OneToMany(mappedBy = "account")
     private Set<Movements> movimientos;

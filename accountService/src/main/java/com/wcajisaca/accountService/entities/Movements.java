@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "movimientos",schema = "account_movements")
+@Table(name = "movimientos")
 public class Movements extends StatusDefault implements Serializable {
     @Id
     @GeneratedValue(generator = "UUID")

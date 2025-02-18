@@ -8,7 +8,7 @@ import com.wcajisaca.accountService.entities.Movements;
 import com.wcajisaca.accountService.enums.TypeMovement;
 import com.wcajisaca.accountService.exception.GeneralException;
 import com.wcajisaca.accountService.exception.GeneralRunException;
-import com.wcajisaca.accountService.mapper.Mapper;
+import com.wcajisaca.accountService.mapper.MovementMapper;
 import com.wcajisaca.accountService.repositories.IAccountRepository;
 import com.wcajisaca.accountService.repositories.IMovementRepository;
 import com.wcajisaca.accountService.services.IMovementsService;
@@ -28,8 +28,9 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Slf4j
 public class MovementsService implements IMovementsService {
-    private final IMovementRepository movRepository;
-    private final IAccountRepository accRepository;
+    private final IMovementRepository moveRepository;
+    private final IAccountRepository accountRepository;
+    private final MovementMapper mapper;
 
     /**
      * {@inheritDoc}
@@ -37,8 +38,8 @@ public class MovementsService implements IMovementsService {
     @Override
     public List<MovementsDTO> findAll() {
         log.info("Find all movements");
-        return movRepository.findAll().stream()
-                .map(Mapper::toMovementsDTO)
+        return moveRepository.findAll().stream()
+                .map(mapper::toMovementsDTO)
                 .collect(Collectors.toList());
     }
 
@@ -48,8 +49,8 @@ public class MovementsService implements IMovementsService {
     @Override
     public List<MovementsDTO> getMovementByAccountId(UUID accountId) {
         log.info("Find movements by account id: {}", accountId);
-        return movRepository.findByAccountId(accountId).stream()
-                .map(Mapper::toMovementsDTO)
+        return moveRepository.findByAccountId(accountId).stream()
+                .map(mapper::toMovementsDTO)
                 .collect(Collectors.toList());
     }
 
@@ -59,8 +60,8 @@ public class MovementsService implements IMovementsService {
     @Override
     public MovementsDTO getMovementById(UUID movementId) throws GeneralException {
         log.info("Find movement by id: {}", movementId);
-        return movRepository.findById(movementId)
-                .map(Mapper::toMovementsDTO)
+        return moveRepository.findById(movementId)
+                .map(mapper::toMovementsDTO)
                 .orElseThrow(Errors::notFoundTransaction);
     }
 
@@ -71,28 +72,24 @@ public class MovementsService implements IMovementsService {
     @Transactional
     public MovementsDTO createMovement(MovementsDTO movementsDTO) throws GeneralException {
         log.info("Create movement");
-        Account account = Optional.ofNullable(movementsDTO.getAccountId())
-                .flatMap(accRepository::findById)
+        Account account = Optional
+                .ofNullable(movementsDTO.accountId())
+                .flatMap(accountRepository::findById)
                 .orElseThrow((Errors::notFoundAccount));
 
         Double newBalance = Optional.of(movementsDTO)
-                .filter(dto -> dto.getTypeMovement().equals(TypeMovement.RET))
-                .map(dto -> {
-                    if (account.getInitialBalance() < dto.getValue()) {
-                        throw new GeneralRunException(Errors.INSUFFICIENT_FUNDS);
-                    }
-                    return account.getInitialBalance() - dto.getValue();
-                })
-                .orElseGet(() -> account.getInitialBalance() + movementsDTO.getValue());
+                .filter(dto -> dto.typeMovement().equals(TypeMovement.RET))
+                .map(dto -> calculateBalanceForRet(dto, account))
+                .orElseGet(() -> calculateBalanceForDep(movementsDTO, account));
 
         Movements movement = Optional.of(movementsDTO)
-                .map(Mapper::toMovements)
+                .map(mapper::toMovements)
                 .map(mov -> mov.withBalance(newBalance))
-                .map(movRepository::save)
+                .map(moveRepository::save)
                 .orElseThrow(Errors::errorRegisteringTransaction);
 
-        accRepository.save(account.withInitialBalance(newBalance));
-        return Mapper.toMovementsDTO(movement);
+        accountRepository.save(account.withInitialBalance(newBalance));
+        return mapper.toMovementsDTO(movement);
     }
 
     /**
@@ -101,8 +98,8 @@ public class MovementsService implements IMovementsService {
     @Override
     public void deleteMovement(UUID movementId) {
         log.info("Delete movement by id: {}", movementId);
-        movRepository.findById(movementId)
-                .ifPresent(movRepository::delete);
+        moveRepository.findById(movementId)
+                .ifPresent(moveRepository::delete);
     }
 
     /**
@@ -115,14 +112,14 @@ public class MovementsService implements IMovementsService {
         report.setClientId(clientId.toString());
         List<AccountStatementReportDTO.AccountDetailDTO> accountDetails = new ArrayList<>();
 
-        accRepository.findByPersonId(clientId).forEach(account -> {
+        accountRepository.findByPersonId(clientId).forEach(account -> {
             AccountStatementReportDTO.AccountDetailDTO accountDetail = new AccountStatementReportDTO.AccountDetailDTO();
             accountDetail.setAccountId(account.getAccountId());
             accountDetail.setTypeAccount(account.getTypeAccount());
             accountDetail.setCurrentBalance(account.getInitialBalance());
 
             List<AccountStatementReportDTO.MovementDetailDTO> movementDetails = new ArrayList<>();
-            movRepository.findByAccountIdAndMovementDateBetween(
+            moveRepository.findByAccountIdAndMovementDateBetween(
                             account.getAccountId(), startDate, endDate)
                     .parallelStream()
                     .forEach(movement -> {
@@ -140,5 +137,30 @@ public class MovementsService implements IMovementsService {
 
         report.setAccounts(accountDetails);
         return report;
+    }
+
+    /**
+     * Calcula el nuevo balance.
+     * @param movement
+     * @param account
+     * @return
+     */
+    private Double calculateBalanceForRet(MovementsDTO movement, Account account) {
+        validatedInputBalance(movement);
+        if (account.getInitialBalance() < movement.value()) {
+            throw new GeneralRunException(Errors.INSUFFICIENT_FUNDS);
+        }
+        return account.getInitialBalance() - movement.value();
+    }
+
+    private double calculateBalanceForDep(MovementsDTO movement, Account account) {
+        validatedInputBalance(movement);
+        return account.getInitialBalance() + movement.value();
+    }
+
+    private void validatedInputBalance(MovementsDTO movement){
+        if(movement.value() <= 0 ) {
+            throw new GeneralRunException(Errors.INVALID_VALUE);
+        }
     }
 }

@@ -15,32 +15,32 @@ import java.util.UUID;
  * DTO for clients
  * @author wcajisaca
  */
-@Getter(AccessLevel.PUBLIC)
-@Setter(AccessLevel.PUBLIC)
-@Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ClientDTO {
-    private UUID personId;
-    private String clientId;
-    @NotNull(message = "El nombre no puede estar vacio")
-    @Size(min = 6,max = 100, message = "El nombre contener nombre y apellido")
-    @Pattern(regexp = Validations.REGEX_NAME_VALIDATION, message = "Apellido no Valido")
-    private String name;
-    @NotNull(message = "El genero no puede estar vacio")
-    private String gender;
-    @NotNull(message = "La edad no puede estar vacia")
-    private Integer age;
-    @EcuatorianDNI
-    private String identification;
-    private String address;
-    private String phone;
-    @NotNull(message = "La contraseña no puede estar vacia")
-    @With
-    private String password;
-    private Boolean status;
-    private Boolean isNewClient;
-    @Tolerate
-    public ClientDTO() {
-        super();
+public record ClientDTO (
+        @With
+        UUID personId,
+        String clientId,
+        @NotNull(message = "El nombre no puede estar vacio")
+        @Size(min = 6,max = 100, message = "El nombre contener nombre y apellido")
+        @Pattern(regexp = Validations.REGEX_NAME_VALIDATION, message = "Apellido no Valido")
+        String name,
+        @NotNull(message = "El genero no puede estar vacio")
+        String gender,
+        @NotNull(message = "La edad no puede estar vacia")
+        Integer age,
+        @EcuatorianDNI
+        String identification,
+        String address,
+        String phone,
+        @NotNull(message = "La contraseña no puede estar vacia")
+        @With
+        String password,
+        Boolean status,
+        @With
+        Boolean isNewClient
+){
+    public static ClientDTO clientDTOForTest(String clientId) {
+        return new ClientDTO(null, clientId, "Wilson Cajisaca", "Masculino",30,
+                "0106146137", "Cuenca", "0963521463", "12345", Boolean.TRUE, null);
     }
 }

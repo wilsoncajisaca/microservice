@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,26 +42,28 @@ public class ClientController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void createClient(@Valid @RequestBody ClientDTO client,
+    public ResponseEntity<Void> createClient(@Valid @RequestBody ClientDTO client,
                                           Errors errors) throws RequestValidationException {
         Commons.validateFieldRequest(errors);
-        client.setIsNewClient(true);
-        this.clientService.save(client);
+        ClientDTO clientDTO = client.withIsNewClient(Boolean.TRUE);
+        ClientDTO obj = this.clientService.save(clientDTO);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.personId()).toUri();
+        return ResponseEntity.created(location).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable UUID id, @RequestBody ClientDTO clientDto,
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable UUID id, @RequestBody ClientDTO client,
                                                   Errors errors) throws RequestValidationException {
         Commons.validateFieldRequest(errors);
         ClientDTO clientDtoUpd = clientService.findById(id);
-        clientDto.setPersonId(clientDtoUpd.getPersonId());
-        clientDto.setIsNewClient(false);
-        return ResponseEntity.ok(clientService.save(clientDto));
+        ClientDTO clientDTO = client.withPersonId(clientDtoUpd.personId())
+                .withIsNewClient(Boolean.FALSE);
+        return ResponseEntity.ok(clientService.save(clientDTO));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteClient(@PathVariable UUID id) {
-        clientService.deleteById(id);
+        clientService.deleteLogicById(id);
     }
 }

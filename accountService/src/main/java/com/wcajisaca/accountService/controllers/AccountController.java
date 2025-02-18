@@ -28,6 +28,12 @@ public class AccountController {
         accountService.createAccount(accountDTO);
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAllAccount() throws GeneralException {
+        return ResponseEntity.ok()
+                .body(accountService.findAll());
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getAccount(@PathVariable("id") UUID accountId) throws GeneralException {
         return ResponseEntity.ok()

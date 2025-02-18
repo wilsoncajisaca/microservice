@@ -7,7 +7,7 @@ import com.wcajisaca.accountService.exception.GeneralRunException;
 public class Errors {
     public static final String INSUFFICIENT_FUNDS = "Fondos insuficientes";
 
-    public static final String INVALID_VALUE = "Valor digitado no valido.";
+    public static final String INVALID_VALUE = "Valor digitado no valido";
 
     /**
      * Generate error
