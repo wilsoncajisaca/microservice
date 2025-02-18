@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "1eafb5a6-7977-4872-8836-f9e4b8a31cf9",
-		"name": "NTTDATATEST",
+		"name": "PRUEBA",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1504238"
 	},
@@ -33,12 +33,12 @@
 					"response": []
 				},
 				{
-					"name": "Obtener todos los clientes Copy",
+					"name": "Eliminar",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8080/client-person/clientes/41ee219a-8652-4c69-8160-e1bd44dbca67",
+							"raw": "http://127.0.0.1:8080/client-person/clientes/6a7ff633-3748-420b-a8b7-1422953fce50",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -50,7 +50,7 @@
 							"path": [
 								"client-person",
 								"clientes",
-								"41ee219a-8652-4c69-8160-e1bd44dbca67"
+								"6a7ff633-3748-420b-a8b7-1422953fce50"
 							]
 						}
 					},
@@ -63,7 +63,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"clientId\": \"wilsoncaji\",\r\n    \"password\": \"password123\",\r\n    \"status\": true,\r\n    \"name\": \"Wilson\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"0104281639\",\r\n    \"address\": \"Cuenca\",\r\n    \"phone\": \"0963805114\"\r\n}",
+							"raw": "{\r\n    \"clientId\": \"wilsoncaji\",\r\n    \"password\": \"password123\",\r\n    \"status\": true,\r\n    \"name\": \"Wilsooooon\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"0104281639\",\r\n    \"address\": \"Cuenca\",\r\n    \"phone\": \"0963805114\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -71,7 +71,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8080/client-person/clientes/41ee219a-8652-4c69-8160-e1bd44dbca67",
+							"raw": "http://127.0.0.1:8080/client-person/clientes/0592e045-a5e4-4504-b078-edfc604e4aa8",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -83,7 +83,7 @@
 							"path": [
 								"client-person",
 								"clientes",
-								"41ee219a-8652-4c69-8160-e1bd44dbca67"
+								"0592e045-a5e4-4504-b078-edfc604e4aa8"
 							]
 						}
 					},
@@ -96,7 +96,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"clientId\": \"wcajisacaaa\",\r\n    \"password\": \"password123\",\r\n    \"status\": true,\r\n    \"name\": \"Wilson Cajisaca\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"2222222222\",\r\n    \"address\": \"Cuenca\",\r\n    \"phone\": \"0963805114\"\r\n}",
+							"raw": "{\r\n    \"clientId\": \"wcajisaca\",\r\n    \"password\": \"password123\",\r\n    \"status\": true,\r\n    \"name\": \"wilson cajisaca\",\r\n    \"gender\": \"Masculino\",\r\n    \"age\": 30,\r\n    \"identification\": \"0106146137\",\r\n    \"address\": \"Cuenca\",\r\n    \"phone\": \"0968242533\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -122,7 +122,7 @@
 					"response": []
 				},
 				{
-					"name": "Obtener todos un cliente por Id",
+					"name": "Obtener un cliente por Id",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -160,7 +160,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"movementDate\": \"2024-08-04\",\r\n    \"typeMovement\": \"DEP\",\r\n    \"value\": 10,\r\n    \"accountId\": \"1985e6fb-ef62-4b09-a863-6293daa25c8d\" \r\n}",
+									"raw": "{\r\n    \"movementDate\": \"2024-10-07\",\r\n    \"typeMovement\": \"RET\",\r\n    \"value\": 50,\r\n    \"accountId\": \"8fc9b28d-04bf-46ac-9164-6b8c6b737396\" \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -186,13 +186,16 @@
 							"response": []
 						},
 						{
-							"name": "Listar movimientos",
+							"name": "Listar movimientos por cuenta",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"movementDate\": \"2024-08-04\",\r\n    \"typeMovement\": \"DEP\",\r\n    \"value\": 10,\r\n    \"accountId\": \"1985e6fb-ef62-4b09-a863-6293daa25c8d\" \r\n}",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -200,7 +203,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://127.0.0.1:8080/account-movements/movimientos",
+									"raw": "http://127.0.0.1:8080/account-movements/movimientos/ceca6bf7-97fb-4c18-9ad9-a998362f7bce",
 									"protocol": "http",
 									"host": [
 										"127",
@@ -211,7 +214,8 @@
 									"port": "8080",
 									"path": [
 										"account-movements",
-										"movimientos"
+										"movimientos",
+										"ceca6bf7-97fb-4c18-9ad9-a998362f7bce"
 									]
 								}
 							},
@@ -225,7 +229,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8080/account-movements/cuentas/5fae0fa3-b227-4564-a540-646ea0569ed2",
+							"raw": "http://127.0.0.1:8080/account-movements/cuentas/4cb89164-e024-4113-9083-1711a945d5c8",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -237,7 +241,31 @@
 							"path": [
 								"account-movements",
 								"cuentas",
-								"5fae0fa3-b227-4564-a540-646ea0569ed2"
+								"4cb89164-e024-4113-9083-1711a945d5c8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar cuentas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://127.0.0.1:8080/account-movements/cuentas/4cb89164-e024-4113-9083-1711a945d5c8",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"account-movements",
+								"cuentas",
+								"4cb89164-e024-4113-9083-1711a945d5c8"
 							]
 						}
 					},
@@ -283,7 +311,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"typeAccount\": \"CORR\",\r\n    \"personId\": \"15790796-07b8-4169-ae55-126d62171cb8\"\r\n}",
+							"raw": "{\r\n    \"typeAccount\": \"AHO\",\r\n    \"personId\": \"4cb89164-e024-4113-9083-1711a945d5c8\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -343,7 +371,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://127.0.0.1:8080/account-movements/reportes?clientId=15790796-07b8-4169-ae55-126d62171cb8&startDate=2024-08-04&endDate=2024-08-09",
+							"raw": "http://127.0.0.1:8080/account-movements/reportes?clientId=256d6af1-7e69-45dc-9f9b-3d21a48bfbe1&startDate=2024-10-07&endDate=2024-10-10",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -359,15 +387,15 @@
 							"query": [
 								{
 									"key": "clientId",
-									"value": "15790796-07b8-4169-ae55-126d62171cb8"
+									"value": "256d6af1-7e69-45dc-9f9b-3d21a48bfbe1"
 								},
 								{
 									"key": "startDate",
-									"value": "2024-08-04"
+									"value": "2024-10-07"
 								},
 								{
 									"key": "endDate",
-									"value": "2024-08-09"
+									"value": "2024-10-10"
 								}
 							]
 						}
