@@ -4,6 +4,7 @@ package com.wcajisaca.clientService.mapper;
 import com.wcajisaca.clientService.dto.request.ClientDTO;
 import com.wcajisaca.clientService.entities.Client;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -18,5 +19,7 @@ public interface ClientMapper {
     Client toEntity(ClientDTO clientDTO);
 
     // Convertir de una entidad Client a un record ClientDTO
+    @Mapping(target = "password", ignore = true)
+    @Mapping(target = "status", ignore = true)
     ClientDTO toDTO(Client client);
 }

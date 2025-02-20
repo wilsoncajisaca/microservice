@@ -47,9 +47,9 @@ public class AccountController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateAccount(@Valid @PathVariable("id") UUID id, @RequestBody AccountDTO accountDto)
             throws AccountRuntimeException {
-        //Validar
+        AccountDTO account = accountDto.withAccountId(id);
         return ResponseEntity
-                .ok(BaseResponse.builder().data(accountService.createAccount(accountDto)).build());
+                .ok(BaseResponse.builder().data(accountService.createAccount(account)).build());
     }
 
     @DeleteMapping("/{id}")

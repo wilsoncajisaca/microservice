@@ -7,6 +7,7 @@ import lombok.*;
 import java.util.UUID;
 
 public record AccountDTO (
+        @With
         UUID accountId,
         Integer accountNumber,
         @NotNull(message = "El tipo de la cuenta es requerido")

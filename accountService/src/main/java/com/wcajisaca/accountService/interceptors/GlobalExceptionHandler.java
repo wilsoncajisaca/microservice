@@ -41,8 +41,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(AccountRuntimeException.class)
     public ResponseEntity<Object> handleAccountRuntimeException(AccountRuntimeException exc){
         log.debug("Exception for return ApiFieldError: {}", exc);
-        String message = exc.getApiError().getError();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exc.getApiError().getError());
     }
 
     /**

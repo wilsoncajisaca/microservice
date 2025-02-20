@@ -37,7 +37,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         String message = exc.getApiErrorList().getErrors()
                 .stream()
                 .collect(Collectors.joining(", "));
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, message);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 
     /**
@@ -48,7 +48,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleGeneralException(ClientRuntimeException exc){
         log.debug("Exception for return handleGeneralException: {}", exc);
         String message = exc.getApiError().getError();
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, message);
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 
     /**
@@ -58,7 +58,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<Object> handleTypeMismatch(ClientRuntimeException exc){
         log.debug("Exception for return handleGeneralException: {}", exc);
-        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exc.getMessage());
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exc.getMessage());
     }
 
     /**
@@ -67,6 +67,16 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleGlobalException(Exception exc){
+        log.error("Exception for return handleGlobalException: {}", exc);
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exc.getMessage());
+    }
+
+    /**
+     * @param exc Throw Error
+     * @return Final custom exception
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleGlobalRunException(Exception exc){
         log.error("Exception for return handleGlobalException: {}", exc);
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, exc.getMessage());
     }
