@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.BooleanUtils;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.wcajisaca.clientService.constants.ChallengeConstants.CREATE_ACCOUNT_TOPIC_NAME;
+import static com.wcajisaca.clientService.constants.ClientConstants.CREATE_ACCOUNT_TOPIC_NAME;
 import static com.wcajisaca.clientService.util.ClientUtils.encryptPassword;
 
 @Service
@@ -34,7 +35,11 @@ public class ClientService implements IClientService {
         kafkaTemplate.send(CREATE_ACCOUNT_TOPIC_NAME, UUID.randomUUID());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Transactional(readOnly = true)
     public List<ClientDTO> findAll() {
         log.info("Find all clients");
         return repository.findAllByStatus(Boolean.TRUE).stream()
@@ -42,25 +47,37 @@ public class ClientService implements IClientService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Transactional(readOnly = true)
     public ClientDTO findById(UUID id) {
         log.info("Find client by id: {}", id);
         return repository.findById(id).map(mapper::toDTO)
                 .orElseThrow(Errors::notFoundClient);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Transactional
     public ClientDTO save(ClientDTO clientDto) {
         log.info("Create client");
         verifyExistClient(clientDto);
         Client client = toClientWithEncryptedPassword(clientDto);
         Client savedClient = repository.save(client);
-        // Envio el mensaje Kafka solo si es un cliente nuevo
+        // Envio el mensaje Kafka solo si es un cliente nuevo //
         sendAccountCreatedByNewClient(clientDto, savedClient);
         return mapper.toDTO(savedClient);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Transactional
     public void deleteLogicById(UUID id) {
         log.info("Delete client by id: {}", id);
         Client client = this.repository.findById(id)
@@ -69,10 +86,14 @@ public class ClientService implements IClientService {
         repository.save(client);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
+    @Transactional
     public void deleteBydId(UUID id) {
         log.info("Delete client by id: {}", id);
-        this.repository.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**

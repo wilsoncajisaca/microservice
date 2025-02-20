@@ -4,15 +4,15 @@ import com.wcajisaca.accountService.dtos.error.ApiError;
 import lombok.Getter;
 
 @Getter
-public class GeneralRunException extends RuntimeException {
+public class AccountException extends Exception {
     private static final long serialVersionUID = 1L;
     private ApiError apiError;
 
-    public GeneralRunException(ApiError apiError){
+    public AccountException(ApiError apiError){
         this.apiError = apiError;
     }
 
-    public GeneralRunException(String error){
+    public AccountException(String error){
         this.apiError = new ApiError(error);
     }
 }

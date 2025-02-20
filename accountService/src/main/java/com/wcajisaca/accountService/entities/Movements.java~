@@ -41,7 +41,6 @@ public class Movements extends StatusDefault implements Serializable {
 
     @Column(name = "cuenta_id")
     private UUID accountId;
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "cuenta_id",
             nullable = false,

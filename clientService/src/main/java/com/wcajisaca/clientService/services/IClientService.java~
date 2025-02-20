@@ -33,7 +33,7 @@ public interface IClientService {
     ClientDTO save(ClientDTO client);
 
     /**
-     * Delete Logic client
+     * Delete client
      * @param id
      */
     void deleteLogicById(UUID id);

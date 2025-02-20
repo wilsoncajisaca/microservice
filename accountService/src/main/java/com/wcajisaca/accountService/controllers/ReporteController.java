@@ -1,6 +1,7 @@
 package com.wcajisaca.accountService.controllers;
 
 import com.wcajisaca.accountService.dtos.AccountStatementReportDTO;
+import com.wcajisaca.accountService.dtos.response.BaseResponse;
 import com.wcajisaca.accountService.services.IMovementsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +22,11 @@ import java.util.UUID;
 public class ReporteController {
     private final IMovementsService movementsService;
     @GetMapping
-    public ResponseEntity<AccountStatementReportDTO> getReporte(@RequestParam UUID clientId,
-                                                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
-                                                                @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        AccountStatementReportDTO report = movementsService.generateAccountStatement(clientId, startDate, endDate);
-        return ResponseEntity.ok(report);
+    public ResponseEntity<?> getReporte(@RequestParam UUID clientId,
+                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return ResponseEntity
+                .ok(BaseResponse.builder()
+                        .data(movementsService.generateAccountStatement(clientId, startDate, endDate)).build());
     }
 }

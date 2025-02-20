@@ -3,7 +3,7 @@ package com.wcajisaca.accountService.services.impl;
 import com.wcajisaca.accountService.constants.Errors;
 import com.wcajisaca.accountService.dtos.AccountDTO;
 import com.wcajisaca.accountService.entities.Account;
-import com.wcajisaca.accountService.exception.GeneralException;
+import com.wcajisaca.accountService.exception.AccountException;
 import com.wcajisaca.accountService.mapper.AccountMapper;
 import com.wcajisaca.accountService.repositories.IAccountRepository;
 import com.wcajisaca.accountService.services.IAccountService;
@@ -31,6 +31,7 @@ public class AccountService implements IAccountService {
      * {@inheritDoc}
      */
     @Override
+    @Transactional(readOnly = true)
     public List<AccountDTO> findAll() {
         log.info("Find all accounts");
         return repository.findAll().stream()
@@ -41,7 +42,8 @@ public class AccountService implements IAccountService {
      * {@inheritDoc}
      */
     @Override
-    public AccountDTO getAccountById(UUID accountId) throws GeneralException {
+    @Transactional(readOnly = true)
+    public AccountDTO getAccountById(UUID accountId) throws AccountException {
         log.info("Find account by id: {}", accountId);
         return repository.findById(accountId)
                 .map(mapper::toAccountDTO)
@@ -65,14 +67,14 @@ public class AccountService implements IAccountService {
     /**
      * {@inheritDoc}
      */
+    @Transactional
     @Override
-    public void deleteAccount(UUID accountId) throws GeneralException {
+    public void deleteAccount(UUID accountId) throws AccountException {
         log.info("Delete account by id: {}", accountId);
-        repository.findById(accountId)
-                .map(account -> {
-                    account.setStatus(Boolean.FALSE);
-                    return repository.save(account);
-                }).orElseThrow(Errors::notFoundAccount);
+        Account account = repository.findById(accountId)
+                .orElseThrow(Errors::notFoundAccount);
+        account.setStatus(Boolean.FALSE);
+        repository.save(account);
     }
 
     /**
@@ -81,7 +83,7 @@ public class AccountService implements IAccountService {
      * @param accountDTO
      * @return
      */
-    private com.wcajisaca.accountService.entities.Account setUpdateAccount(com.wcajisaca.accountService.entities.Account account, AccountDTO accountDTO) {
+    private Account setUpdateAccount(Account account, AccountDTO accountDTO) {
         return account.withAccountNumber(accountDTO.accountNumber())
                 .withInitialBalance(accountDTO.initialBalance())
                 .withTypeAccount(accountDTO.typeAccount())
@@ -93,7 +95,7 @@ public class AccountService implements IAccountService {
      * @param accountDTO
      * @return
      */
-    private com.wcajisaca.accountService.entities.Account accountWithBalance(AccountDTO accountDTO) {
+    private Account accountWithBalance(AccountDTO accountDTO) {
         return mapper.toAccount(accountDTO)
                 .withAccountNumber(ThreadLocalRandom.current().nextInt(100000, 999999 + 1))
                 .withInitialBalance(INITIAL_BALANCE);

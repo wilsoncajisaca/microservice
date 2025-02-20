@@ -28,34 +28,37 @@ spring:
                 statusCodes:
                   - 500
                   - "NOT_FOUND"
-
-logging.level.io.github.resilience4j: DEBUG
-
-resilience4j.circuitbreaker:
-  configs:
-    default:
-      slidingWindowSize: 10
-      minimumNumberOfCalls: 5
-      permittedNumberOfCallsInHalfOpenState: 3
-      automaticTransitionFromOpenToHalfOpenEnabled: true
-      waitDurationInOpenState: 2s
-      failureRateThreshold: 5
-      eventConsumerBufferSize: 10
-      slowCallDurationThreshold: 200ms
-      slowCallRateThreshold: 30
-      recordExceptions:
-        - org.springframework.web.client.HttpServerErrorException
-        - java.io.IOException
-      ignoreExceptions:
-        - java.lang.IllegalStateException
-    shared:
-      slidingWindowSize: 100
-      permittedNumberOfCallsInHalfOpenState: 30
-      waitDurationInOpenState: 1s
-      failureRateThreshold: 50
-      eventConsumerBufferSize: 10
-      ignoreExceptions:
-        - java.lang.IllegalStateException
+    circuitbreaker:
+      resilience4j:
+        instances:
+          clientPersonCircuitBreaker:
+            timeoutDuration: 10s  # Timeout de 10 segundos
+            failureRateThreshold: 50
+            waitDurationInOpenState: 5000
+            permittedNumberOfCallsInHalfOpenState: 10
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            recordExceptions:
+              - org.springframework.web.client.HttpServerErrorException
+              - java.io.IOException
+              - java.util.concurrent.TimeoutException
+              - org.springframework.cloud.gateway.support.TimeoutException
+          accountMovementsCircuitBreaker:
+            timeoutDuration: 10s
+            failureRateThreshold: 50
+            waitDurationInOpenState: 5000
+            permittedNumberOfCallsInHalfOpenState: 10
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            recordExceptions:
+              - org.springframework.web.client.HttpServerErrorException
+              - java.io.IOException
+              - java.util.concurrent.TimeoutException
+              - org.springframework.cloud.gateway.support.TimeoutException
+    loadbalancer:
+      enabled: true
 
 resilience4j.timelimiter:
   time-limiter-aspect-order: 398

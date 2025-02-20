@@ -73,7 +73,7 @@ services:
     container_name: eureka-server
     image: eureka_service:1.0.0
     ports:
-      - 8761:8761
+      - '8761:8761'
     networks:
       - springcloud
     environment:
@@ -94,7 +94,8 @@ services:
       DB_NAME: client_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      EUREKA_HOST: discover-server
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EUREKA_HOST: eureka-server
     networks:
       - springcloud
     build:
@@ -113,7 +114,8 @@ services:
       DB_NAME: transactional_db
       DB_USER: postgres
       DB_PASSWORD: postgres
-      EUREKA_HOST: discover-server
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      EUREKA_HOST: eureka-server
     networks:
       - springcloud
     build:
@@ -126,11 +128,11 @@ services:
       - eureka-server
     image: api-gateway:1.0.0
     ports:
-      - 8080:8080
+      - 8888:8888
     networks:
       - springcloud
     environment:
-      - EUREKA_HOST=eureka-server
+      EUREKA_HOST: eureka-server
     build:
       context: ./api-gateway
       dockerfile: dockerfile

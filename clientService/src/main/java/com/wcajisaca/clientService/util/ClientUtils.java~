@@ -7,11 +7,6 @@ import org.mindrot.jbcrypt.BCrypt;
  * Created by wcajisaca
  */
 public class ClientUtils {
-    /**
-     * Encriptacion de la contraseña
-     * @param password
-     * @return
-     */
     public static String encryptPassword(String password) {
         String salt = BCrypt.gensalt();
         return BCrypt.hashpw(password, salt);

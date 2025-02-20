@@ -54,6 +54,8 @@ public class ClientController {
         ClientDTO clientDtoUpd = clientService.findById(id);
         ClientDTO clientDTO = client.withPersonId(clientDtoUpd.personId())
                 .withIsNewClient(Boolean.FALSE);
+
+        //return ResponseEntity.ok(clientService.save(clientDTO));
         return ResponseEntity
                 .ok(BaseResponse.builder().data(clientService.save(clientDTO)).build());
     }

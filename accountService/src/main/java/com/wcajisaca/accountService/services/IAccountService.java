@@ -1,7 +1,7 @@
 package com.wcajisaca.accountService.services;
 
 import com.wcajisaca.accountService.dtos.AccountDTO;
-import com.wcajisaca.accountService.exception.GeneralException;
+import com.wcajisaca.accountService.exception.AccountException;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,14 +28,14 @@ public interface IAccountService {
      * Get account by id
      * @param accountId
      * @return
-     * @throws GeneralException
+     * @throws AccountException
      */
-    AccountDTO getAccountById(UUID accountId) throws GeneralException;
+    AccountDTO getAccountById(UUID accountId) throws AccountException;
 
     /**
      * Delete account
      * @param accountId
-     * @throws GeneralException
+     * @throws AccountException
      */
-    void deleteAccount(UUID accountId) throws GeneralException;
+    void deleteAccount(UUID accountId) throws AccountException;
 }

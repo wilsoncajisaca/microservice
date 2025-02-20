@@ -35,8 +35,7 @@ public class MovementsController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable("id") UUID id, @Valid @RequestBody MovementsDTO movementDTO) throws AccountException, AccountRuntimeException {
         MovementsDTO movementUpdate = movementDTO.withMovementId(service.getMovementById(id).movementId());
-        return ResponseEntity
-                .ok(BaseResponse.builder().data(service.createMovement(movementUpdate)).build());
+        return ResponseEntity.ok(service.createMovement(movementUpdate));
     }
 
     @DeleteMapping("/{id}")

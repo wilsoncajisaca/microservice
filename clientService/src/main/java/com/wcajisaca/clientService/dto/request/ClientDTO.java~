@@ -35,7 +35,7 @@ public record ClientDTO (
         String address,
         String phone,
         @NotNull(message = "La contraseña no puede estar vacia")
-        @NotBlank(message = "La contraseña no puede estar vacia")
+        NotBlank(message = "La contraseña no puede estar vacia")
         @With
         String password,
         Boolean status,

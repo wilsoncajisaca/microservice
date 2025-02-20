@@ -2,7 +2,6 @@ package com.wcajisaca.accountService.services.impl;
 
 import com.wcajisaca.accountService.dtos.AccountDTO;
 import com.wcajisaca.accountService.enums.TypeAccount;
-import com.wcajisaca.accountService.exception.GeneralException;
 import com.wcajisaca.accountService.services.IAccountService;
 import com.wcajisaca.accountService.services.IKafkaConsumerService;
 import lombok.RequiredArgsConstructor;

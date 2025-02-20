@@ -1,6 +1,6 @@
 package com.wcajisaca.accountService.services;
 
-import com.wcajisaca.accountService.exception.GeneralException;
+import com.wcajisaca.accountService.exception.AccountException;
 
 import java.util.UUID;
 
@@ -13,5 +13,5 @@ public interface IKafkaConsumerService {
      * Consume message
      * @param personId
      */
-    void consumeMessage(UUID personId) throws GeneralException;
+    void consumeMessage(UUID personId) throws AccountException;
 }

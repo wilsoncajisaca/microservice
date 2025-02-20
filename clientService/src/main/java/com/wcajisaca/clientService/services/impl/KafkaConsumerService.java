@@ -1,22 +1,23 @@
 package com.wcajisaca.clientService.services.impl;
 
-import com.wcajisaca.clientService.exception.GeneralException;
 import com.wcajisaca.clientService.services.IClientService;
 import com.wcajisaca.clientService.services.IKafkaConsumerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 
-import static com.wcajisaca.clientService.constants.ChallengeConstants.*;
+import static com.wcajisaca.clientService.constants.ClientConstants.*;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class KafkaConsumerService implements IKafkaConsumerService {
+    @Qualifier("virtualThreadExecutor")
     private final ExecutorService executorService;
     private final IClientService clientService;
     /**

@@ -2,8 +2,7 @@ package com.wcajisaca.accountService.services;
 
 import com.wcajisaca.accountService.dtos.AccountStatementReportDTO;
 import com.wcajisaca.accountService.dtos.MovementsDTO;
-import com.wcajisaca.accountService.exception.GeneralException;
-import org.springframework.transaction.annotation.Transactional;
+import com.wcajisaca.accountService.exception.AccountException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,25 +23,25 @@ public interface IMovementsService {
      * Create movement
      * @param movementsDTO
      * @return
-     * @throws GeneralException
+     * @throws AccountException
      */
-    MovementsDTO createMovement(MovementsDTO movementsDTO) throws GeneralException;
+    MovementsDTO createMovement(MovementsDTO movementsDTO) throws AccountException;
 
     /**
      * Get movements by account
      * @param accountId
      * @return
-     * @throws GeneralException
+     * @throws AccountException
      */
-    List<MovementsDTO> getMovementByAccountId(UUID accountId) throws GeneralException;
+    List<MovementsDTO> getMovementByAccountId(UUID accountId) throws AccountException;
 
     /**
      * Get movement by id
      * @param movementId
      * @return
-     * @throws GeneralException
+     * @throws AccountException
      */
-    MovementsDTO getMovementById(UUID movementId) throws GeneralException;
+    MovementsDTO getMovementById(UUID movementId) throws AccountException;
 
     /**
      * Delete movement
