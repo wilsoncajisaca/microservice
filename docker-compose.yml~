@@ -129,12 +129,12 @@ services:
     depends_on:
       - eureka-server
     image: api-gateway:1.0.0
-    environment:
-      EUREKA_HOST: eureka-server
     ports:
       - '8080:8080'
     networks:
       - springcloud
+    environment:
+      EUREKA_HOST: eureka-server
     build:
       context: ./api-gateway
       dockerfile: dockerfile

@@ -44,13 +44,13 @@ class ChallengeApplicationTests {
 		when(clientService.findById(clientId)).thenReturn(clientDTO);
 		mockMvc.perform(get("/clientes/{id}", clientId))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.clientId").value(clientId.toString()))
-				.andExpect(jsonPath("$.name").value("Wilson Cajisaca"))
-				.andExpect(jsonPath("$.gender").value("Masculino"))
-				.andExpect(jsonPath("$.identification").value("0106146137"))
-				.andExpect(jsonPath("$.phone").value("0963521463"))
-				.andExpect(jsonPath("$.address").value("Cuenca"))
-				.andExpect(jsonPath("$.age").value(30));
+				.andExpect(jsonPath("$.data.clientId").value(clientId.toString()))  // Accede a clientId dentro de data
+				.andExpect(jsonPath("$.data.name").value("Wilson Cajisaca"))
+				.andExpect(jsonPath("$.data.gender").value("Masculino"))
+				.andExpect(jsonPath("$.data.identification").value("0106146137"))
+				.andExpect(jsonPath("$.data.phone").value("0963521463"))
+				.andExpect(jsonPath("$.data.address").value("Cuenca"))
+				.andExpect(jsonPath("$.data.age").value(30));
 	}
 
 	@Test

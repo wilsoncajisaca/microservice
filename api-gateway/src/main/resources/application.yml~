@@ -1,0 +1,95 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: client-person
+          uri: lb://client-person
+          predicates:
+            - Path=/client-person/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: clientPersonCircuitBreaker
+                fallbackUri: forward:/fallback
+        - id: account-movements
+          uri: lb://account-movements
+          predicates:
+            - Path=/account-movements/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: accountMovementsCircuitBreaker
+                fallbackUri: forward:/fallback
+                statusCodes:
+                  - 500
+                  - "NOT_FOUND"
+    circuitbreaker:
+      resilience4j:
+        instances:
+          clientPersonCircuitBreaker:
+            timeoutDuration: 10s  # Timeout de 10 segundos
+            failureRateThreshold: 50
+            waitDurationInOpenState: 5000
+            permittedNumberOfCallsInHalfOpenState: 10
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            recordExceptions:
+              - org.springframework.web.client.HttpServerErrorException
+              - java.io.IOException
+              - java.util.concurrent.TimeoutException
+              - org.springframework.cloud.gateway.support.TimeoutException
+          accountMovementsCircuitBreaker:
+            timeoutDuration: 10s
+            failureRateThreshold: 50
+            waitDurationInOpenState: 5000
+            permittedNumberOfCallsInHalfOpenState: 10
+            slidingWindowSize: 10
+            minimumNumberOfCalls: 5
+            automaticTransitionFromOpenToHalfOpenEnabled: true
+            recordExceptions:
+              - org.springframework.web.client.HttpServerErrorException
+              - java.io.IOException
+              - java.util.concurrent.TimeoutException
+              - org.springframework.cloud.gateway.support.TimeoutException
+    loadbalancer:
+      enabled: true
+
+resilience4j.timelimiter:
+  time-limiter-aspect-order: 398
+  configs:
+    default:
+      timeoutDuration: 10s
+      cancelRunningFuture: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info,health,circuitbreakers
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+    circuitbreakers:
+      enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+logging:
+  level:
+    root: info
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: info
+    com.netflix.eureka: DEBUG
+    com.netflix.discovery: DEBUG
