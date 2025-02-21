@@ -10,8 +10,9 @@ import java.util.UUID;
  */
 public interface IKafkaConsumerService {
     /**
-     * Consume message
+     * Consume message by create account
      * @param personId
      */
-    void consumeMessage(UUID personId) throws AccountException;
+    void consumerNewAccount(UUID personId) throws AccountException;
+    void consumerDeleteAccount(UUID personId) throws AccountException;
 }

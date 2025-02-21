@@ -16,6 +16,6 @@ public class StatusDefault implements Serializable {
     private Boolean status;
     @PrePersist
     public void prePersist() {
-        status = true;
+        status = Boolean.TRUE;
     }
 }

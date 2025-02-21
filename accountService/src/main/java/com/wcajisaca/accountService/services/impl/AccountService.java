@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
@@ -79,6 +78,20 @@ public class AccountService implements IAccountService {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Transactional
+    @Override
+    public void deleteAccountByClient(UUID personId) {
+        log.info("Delete account by id: {}", personId);
+        List<Account> accounts = repository.findByPersonId(personId)
+                .stream()
+                .map(this::disableAccount)
+                .collect(Collectors.toList());
+        repository.saveAll(accounts);
+    }
+
+    /**
      * Set update account
      * @param account
      * @param accountDTO
@@ -97,5 +110,15 @@ public class AccountService implements IAccountService {
         return mapper.toAccount(accountDTO)
                 .withAccountNumber(ThreadLocalRandom.current().nextInt(100000, 999999 + 1))
                 .withInitialBalance(INITIAL_BALANCE);
+    }
+
+    /**
+     * Disable account
+     * @param account
+     * @return
+     */
+    private Account disableAccount(Account account) {
+        account.setStatus(Boolean.FALSE);
+        return account;
     }
 }

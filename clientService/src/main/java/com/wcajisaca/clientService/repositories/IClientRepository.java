@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @Repository
-public interface IClienteRepository extends JpaRepository<Client, Serializable> {
+public interface IClientRepository extends JpaRepository<Client, Serializable> {
     Boolean existsByIdentificationOrClientId(String ident, String clientId);
     List<Client> findAllByStatus(Boolean status);
 }

@@ -3,7 +3,7 @@ package com.wcajisaca.clientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wcajisaca.clientService.dto.request.ClientDTO;
 import com.wcajisaca.clientService.entities.Client;
-import com.wcajisaca.clientService.repositories.IClienteRepository;
+import com.wcajisaca.clientService.repositories.IClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class ClientRepositoryIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private IClienteRepository clientRepository;
+    private IClientRepository clientRepository;
     ClientDTO clientDTO;
 
     @BeforeEach

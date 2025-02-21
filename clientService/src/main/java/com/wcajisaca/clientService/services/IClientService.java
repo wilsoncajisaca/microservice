@@ -10,8 +10,6 @@ import java.util.UUID;
  * @author wcajisaca
  */
 public interface IClientService {
-    void testKafka();
-
     /**
      * Find all clients
      * @return

@@ -2,6 +2,7 @@ package com.wcajisaca.accountService.services;
 
 import com.wcajisaca.accountService.dtos.AccountDTO;
 import com.wcajisaca.accountService.exception.AccountException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -38,4 +39,11 @@ public interface IAccountService {
      * @throws AccountException
      */
     void deleteAccount(UUID accountId) throws AccountException;
+
+    /**
+     * Delete account by client
+     * @param personId
+     * @throws AccountException
+     */
+    void deleteAccountByClient(UUID personId) throws AccountException;
 }

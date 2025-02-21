@@ -20,12 +20,6 @@ public class ClientController {
     @Autowired
     private IClientService clientService;
 
-    @GetMapping("/kafka")
-    @ResponseStatus(HttpStatus.OK)
-    public void testKafka() {
-        clientService.testKafka();
-    }
-
     @GetMapping
     public ResponseEntity<?> getAllClients() {
         return ResponseEntity
